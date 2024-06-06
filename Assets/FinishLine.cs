@@ -1,15 +1,20 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class FinishLine : MonoBehaviour
 {
     public GameObject gameOverScreen;
+    public GameObject finishScreen; // Novo GameObject para a tela de término do segundo round
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI finishTimeText; // Texto para exibir o tempo na tela de término
+    public TextMeshProUGUI finishDiamondsText;
     public GameObject inventoryUI;
     public float timeLimit = 90f; // Tempo limite em segundos (1:30 = 90 segundos)
     private bool playerFinished = false;
     private float timeRemaining;
     private int lapsCompleted = 0;
+    private float finishTime; // Variável para armazenar o tempo de término do segundo round
 
     void Start()
     {
@@ -27,10 +32,11 @@ public class FinishLine : MonoBehaviour
                 inventoryUI.SetActive(false);
                 StartTimer();
             }
-            else if (lapsCompleted == 2) // Segunda volta: mostrar tela de game over
+            else if (lapsCompleted == 2) // Segunda volta: mostrar tela de fim do segundo round
             {
-                ShowGameOverScreen();
-            }        
+                finishTime = timeLimit - timeRemaining; // Calcular o tempo de término
+                ShowFinishScreen();
+            }
 
         }
     }
@@ -81,4 +87,19 @@ public class FinishLine : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    // Nova função para mostrar a tela de término do segundo round
+    private void ShowFinishScreen()
+    {
+        // Ativa a tela de término
+        finishScreen.SetActive(true);
+
+        // Formata o tempo de término como "minutos:segundos"
+        int minutes = Mathf.FloorToInt(finishTime / 60);
+        int seconds = Mathf.FloorToInt(finishTime % 60);
+        finishTimeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        finishDiamondsText.text =  InventoryUI.TotalDiamonds.ToString();
+
+        // Opcional: Parar o tempo no jogo
+        Time.timeScale = 0;
+    }
 }
