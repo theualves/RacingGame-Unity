@@ -66,7 +66,7 @@ public class FinishLine : MonoBehaviour
     {
         int minutes = Mathf.FloorToInt(timeRemaining / 60);
         int seconds = Mathf.FloorToInt(timeRemaining % 60);
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        timerText.text = string.Format("<b>Complete a volta em até: </b>{0:00}:{1:00}", minutes, seconds);
     }
 
     private void CheckTime()
